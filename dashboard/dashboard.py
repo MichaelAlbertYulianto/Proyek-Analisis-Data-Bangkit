@@ -4,22 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-payment_df = pd.read_csv("D:\Bangkit\Analisis Data  E-Commerce Public\Proyek-Analisis-Data-Bangkit\data\olist_order_payments_dataset.csv")
-category_df = pd.read_csv("D:\Bangkit\Analisis Data  E-Commerce Public\Proyek-Analisis-Data-Bangkit\data\product_category_name_translation.csv")
-product_df = pd.read_csv("D:\Bangkit\Analisis Data  E-Commerce Public\Proyek-Analisis-Data-Bangkit\data\olist_products_dataset.csv")
-order_item_df = pd.read_csv("D:\Bangkit\Analisis Data  E-Commerce Public\Proyek-Analisis-Data-Bangkit\data\olist_order_items_dataset.csv")
-customers_df = pd.read_csv("D:\Bangkit\Analisis Data  E-Commerce Public\Proyek-Analisis-Data-Bangkit\data\olist_customers_dataset.csv")
-order_df = pd.read_csv("D:\Bangkit\Analisis Data  E-Commerce Public\Proyek-Analisis-Data-Bangkit\data\olist_orders_dataset.csv")
-
-merged_df = pd.merge(order_item_df, product_df, on='product_id', how='left')
-
-merged_df = pd.merge(merged_df, category_df, on='product_category_name', how='left')
-
-merged_df = pd.merge(merged_df, payment_df, on='order_id', how='left')
-
-merged_df = pd.merge(merged_df, order_df, on='order_id', how='left')
-
-merged_df = pd.merge(merged_df, customers_df, on='customer_id', how='left')
+merged_df = pd.read_csv('main_data.csv')
 
 top_10_product_category = merged_df.groupby('product_category_name_english')['order_id'].count().sort_values(ascending=False).head(10)
 
@@ -46,29 +31,17 @@ for i, value in enumerate(top_10_product_category_df['Angka Penjualan']):
 
 st.pyplot(fig)
 
-top_10_customer_city = merged_df.groupby('customer_city')['order_id'].count().sort_values(ascending=False).head(10)
+merged_df['order_delivered_customer_date'] = pd.to_datetime(merged_df['order_delivered_customer_date'], errors='coerce')
+merged_df['order_purchase_timestamp'] = pd.to_datetime(merged_df['order_purchase_timestamp'], errors='coerce')
+merged_df['order_estimated_delivery_date'] = pd.to_datetime(merged_df['order_estimated_delivery_date'], errors='coerce')
 
-top_10_customer_city_df = top_10_customer_city.reset_index()
-top_10_customer_city_df.columns = ['Customer City', 'Number of Orders']
+merged_df['actual_delivery_time'] = (merged_df['order_delivered_customer_date'] - merged_df['order_purchase_timestamp']).dt.days
+merged_df['estimated_delivery_time'] = (merged_df['order_estimated_delivery_date'] - merged_df['order_purchase_timestamp']).dt.days
 
-st.title('Kota dengan Pelanggan Terbanyak')
+merged_df['purchase_month'] = merged_df['order_purchase_timestamp'].dt.to_period('M')
 
-st.dataframe(top_10_customer_city_df)
+delivery_trend = merged_df.groupby('purchase_month')[['actual_delivery_time', 'estimated_delivery_time']].mean().dropna()
 
-st.title('Diagram data jumlah pesanan')
-st.write('Pada diagram ini, terdapat kota-kota dengan pelanggan terbanyak berdasarkan jumlah pesanan.')
+st.title('Trend waktu perkiraan dan waktu nyata')
 
-fig, ax = plt.subplots(figsize=(10, 5))
-sns.barplot(x=top_10_customer_city_df['Customer City'], y=top_10_customer_city_df['Number of Orders'], ax=ax)
-
-ax.set_title('Kota dengan pelanggan terbanyak')
-ax.set_xlabel('Kota Pelanggan')
-ax.set_ylabel('Jumlah Pesanan')
-ax.set_xticklabels(top_10_customer_city_df['Customer City'], rotation=45, ha='right')
-
-for i, value in enumerate(top_10_customer_city_df['Number of Orders']):
-    ax.text(i, value + 0.5, f'{value}', ha='center')
-
-st.pyplot(fig)
-
-merged_df.to_csv('main_data.csv', index=False)
+st.line_chart(delivery_trend)

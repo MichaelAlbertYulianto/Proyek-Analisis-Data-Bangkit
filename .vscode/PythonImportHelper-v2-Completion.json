@@ -1,0 +1,146 @@
+[
+    {
+        "label": "streamlit",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "streamlit",
+        "description": "streamlit",
+        "detail": "streamlit",
+        "documentation": {}
+    },
+    {
+        "label": "pandas",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pandas",
+        "description": "pandas",
+        "detail": "pandas",
+        "documentation": {}
+    },
+    {
+        "label": "numpy",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "numpy",
+        "description": "numpy",
+        "detail": "numpy",
+        "documentation": {}
+    },
+    {
+        "label": "matplotlib.pyplot",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "matplotlib.pyplot",
+        "description": "matplotlib.pyplot",
+        "detail": "matplotlib.pyplot",
+        "documentation": {}
+    },
+    {
+        "label": "seaborn",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "seaborn",
+        "description": "seaborn",
+        "detail": "seaborn",
+        "documentation": {}
+    },
+    {
+        "label": "merged_df",
+        "kind": 5,
+        "importPath": "dashboard.dashboard",
+        "description": "dashboard.dashboard",
+        "peekOfCode": "merged_df = pd.read_csv('main_data.csv')\ntop_10_product_category = merged_df.groupby('product_category_name_english')['order_id'].count().sort_values(ascending=False).head(10)\ntop_10_product_category_df = top_10_product_category.reset_index()\ntop_10_product_category_df.columns = ['Kategori Produk', 'Angka Penjualan']\nst.title('Kategori Produk yang Paling Laris')\nst.dataframe(top_10_product_category_df)\nst.title('Diagram data angka penjualan')\nst.write('pada diagram ini, terdapat kategori-kategori produk yang paling laris')\nfig, ax = plt.subplots(figsize=(10, 5))\nsns.barplot(x=top_10_product_category_df['Kategori Produk'], y=top_10_product_category_df['Angka Penjualan'], ax=ax)",
+        "detail": "dashboard.dashboard",
+        "documentation": {}
+    },
+    {
+        "label": "top_10_product_category",
+        "kind": 5,
+        "importPath": "dashboard.dashboard",
+        "description": "dashboard.dashboard",
+        "peekOfCode": "top_10_product_category = merged_df.groupby('product_category_name_english')['order_id'].count().sort_values(ascending=False).head(10)\ntop_10_product_category_df = top_10_product_category.reset_index()\ntop_10_product_category_df.columns = ['Kategori Produk', 'Angka Penjualan']\nst.title('Kategori Produk yang Paling Laris')\nst.dataframe(top_10_product_category_df)\nst.title('Diagram data angka penjualan')\nst.write('pada diagram ini, terdapat kategori-kategori produk yang paling laris')\nfig, ax = plt.subplots(figsize=(10, 5))\nsns.barplot(x=top_10_product_category_df['Kategori Produk'], y=top_10_product_category_df['Angka Penjualan'], ax=ax)\nax.set_title('Kategori Produk yang paling laris')",
+        "detail": "dashboard.dashboard",
+        "documentation": {}
+    },
+    {
+        "label": "top_10_product_category_df",
+        "kind": 5,
+        "importPath": "dashboard.dashboard",
+        "description": "dashboard.dashboard",
+        "peekOfCode": "top_10_product_category_df = top_10_product_category.reset_index()\ntop_10_product_category_df.columns = ['Kategori Produk', 'Angka Penjualan']\nst.title('Kategori Produk yang Paling Laris')\nst.dataframe(top_10_product_category_df)\nst.title('Diagram data angka penjualan')\nst.write('pada diagram ini, terdapat kategori-kategori produk yang paling laris')\nfig, ax = plt.subplots(figsize=(10, 5))\nsns.barplot(x=top_10_product_category_df['Kategori Produk'], y=top_10_product_category_df['Angka Penjualan'], ax=ax)\nax.set_title('Kategori Produk yang paling laris')\nax.set_xlabel('Kategori Produk')",
+        "detail": "dashboard.dashboard",
+        "documentation": {}
+    },
+    {
+        "label": "top_10_product_category_df.columns",
+        "kind": 5,
+        "importPath": "dashboard.dashboard",
+        "description": "dashboard.dashboard",
+        "peekOfCode": "top_10_product_category_df.columns = ['Kategori Produk', 'Angka Penjualan']\nst.title('Kategori Produk yang Paling Laris')\nst.dataframe(top_10_product_category_df)\nst.title('Diagram data angka penjualan')\nst.write('pada diagram ini, terdapat kategori-kategori produk yang paling laris')\nfig, ax = plt.subplots(figsize=(10, 5))\nsns.barplot(x=top_10_product_category_df['Kategori Produk'], y=top_10_product_category_df['Angka Penjualan'], ax=ax)\nax.set_title('Kategori Produk yang paling laris')\nax.set_xlabel('Kategori Produk')\nax.set_ylabel('Angka Penjualan')",
+        "detail": "dashboard.dashboard",
+        "documentation": {}
+    },
+    {
+        "label": "merged_df['order_delivered_customer_date']",
+        "kind": 5,
+        "importPath": "dashboard.dashboard",
+        "description": "dashboard.dashboard",
+        "peekOfCode": "merged_df['order_delivered_customer_date'] = pd.to_datetime(merged_df['order_delivered_customer_date'], errors='coerce')\nmerged_df['order_purchase_timestamp'] = pd.to_datetime(merged_df['order_purchase_timestamp'], errors='coerce')\nmerged_df['order_estimated_delivery_date'] = pd.to_datetime(merged_df['order_estimated_delivery_date'], errors='coerce')\nmerged_df['actual_delivery_time'] = (merged_df['order_delivered_customer_date'] - merged_df['order_purchase_timestamp']).dt.days\nmerged_df['estimated_delivery_time'] = (merged_df['order_estimated_delivery_date'] - merged_df['order_purchase_timestamp']).dt.days\nmerged_df['purchase_month'] = merged_df['order_purchase_timestamp'].dt.to_period('M')\ndelivery_trend = merged_df.groupby('purchase_month')[['actual_delivery_time', 'estimated_delivery_time']].mean().dropna()\nst.title('Trend waktu perkiraan dan waktu nyata')\nst.line_chart(delivery_trend)",
+        "detail": "dashboard.dashboard",
+        "documentation": {}
+    },
+    {
+        "label": "merged_df['order_purchase_timestamp']",
+        "kind": 5,
+        "importPath": "dashboard.dashboard",
+        "description": "dashboard.dashboard",
+        "peekOfCode": "merged_df['order_purchase_timestamp'] = pd.to_datetime(merged_df['order_purchase_timestamp'], errors='coerce')\nmerged_df['order_estimated_delivery_date'] = pd.to_datetime(merged_df['order_estimated_delivery_date'], errors='coerce')\nmerged_df['actual_delivery_time'] = (merged_df['order_delivered_customer_date'] - merged_df['order_purchase_timestamp']).dt.days\nmerged_df['estimated_delivery_time'] = (merged_df['order_estimated_delivery_date'] - merged_df['order_purchase_timestamp']).dt.days\nmerged_df['purchase_month'] = merged_df['order_purchase_timestamp'].dt.to_period('M')\ndelivery_trend = merged_df.groupby('purchase_month')[['actual_delivery_time', 'estimated_delivery_time']].mean().dropna()\nst.title('Trend waktu perkiraan dan waktu nyata')\nst.line_chart(delivery_trend)",
+        "detail": "dashboard.dashboard",
+        "documentation": {}
+    },
+    {
+        "label": "merged_df['order_estimated_delivery_date']",
+        "kind": 5,
+        "importPath": "dashboard.dashboard",
+        "description": "dashboard.dashboard",
+        "peekOfCode": "merged_df['order_estimated_delivery_date'] = pd.to_datetime(merged_df['order_estimated_delivery_date'], errors='coerce')\nmerged_df['actual_delivery_time'] = (merged_df['order_delivered_customer_date'] - merged_df['order_purchase_timestamp']).dt.days\nmerged_df['estimated_delivery_time'] = (merged_df['order_estimated_delivery_date'] - merged_df['order_purchase_timestamp']).dt.days\nmerged_df['purchase_month'] = merged_df['order_purchase_timestamp'].dt.to_period('M')\ndelivery_trend = merged_df.groupby('purchase_month')[['actual_delivery_time', 'estimated_delivery_time']].mean().dropna()\nst.title('Trend waktu perkiraan dan waktu nyata')\nst.line_chart(delivery_trend)",
+        "detail": "dashboard.dashboard",
+        "documentation": {}
+    },
+    {
+        "label": "merged_df['actual_delivery_time']",
+        "kind": 5,
+        "importPath": "dashboard.dashboard",
+        "description": "dashboard.dashboard",
+        "peekOfCode": "merged_df['actual_delivery_time'] = (merged_df['order_delivered_customer_date'] - merged_df['order_purchase_timestamp']).dt.days\nmerged_df['estimated_delivery_time'] = (merged_df['order_estimated_delivery_date'] - merged_df['order_purchase_timestamp']).dt.days\nmerged_df['purchase_month'] = merged_df['order_purchase_timestamp'].dt.to_period('M')\ndelivery_trend = merged_df.groupby('purchase_month')[['actual_delivery_time', 'estimated_delivery_time']].mean().dropna()\nst.title('Trend waktu perkiraan dan waktu nyata')\nst.line_chart(delivery_trend)",
+        "detail": "dashboard.dashboard",
+        "documentation": {}
+    },
+    {
+        "label": "merged_df['estimated_delivery_time']",
+        "kind": 5,
+        "importPath": "dashboard.dashboard",
+        "description": "dashboard.dashboard",
+        "peekOfCode": "merged_df['estimated_delivery_time'] = (merged_df['order_estimated_delivery_date'] - merged_df['order_purchase_timestamp']).dt.days\nmerged_df['purchase_month'] = merged_df['order_purchase_timestamp'].dt.to_period('M')\ndelivery_trend = merged_df.groupby('purchase_month')[['actual_delivery_time', 'estimated_delivery_time']].mean().dropna()\nst.title('Trend waktu perkiraan dan waktu nyata')\nst.line_chart(delivery_trend)",
+        "detail": "dashboard.dashboard",
+        "documentation": {}
+    },
+    {
+        "label": "merged_df['purchase_month']",
+        "kind": 5,
+        "importPath": "dashboard.dashboard",
+        "description": "dashboard.dashboard",
+        "peekOfCode": "merged_df['purchase_month'] = merged_df['order_purchase_timestamp'].dt.to_period('M')\ndelivery_trend = merged_df.groupby('purchase_month')[['actual_delivery_time', 'estimated_delivery_time']].mean().dropna()\nst.title('Trend waktu perkiraan dan waktu nyata')\nst.line_chart(delivery_trend)",
+        "detail": "dashboard.dashboard",
+        "documentation": {}
+    },
+    {
+        "label": "delivery_trend",
+        "kind": 5,
+        "importPath": "dashboard.dashboard",
+        "description": "dashboard.dashboard",
+        "peekOfCode": "delivery_trend = merged_df.groupby('purchase_month')[['actual_delivery_time', 'estimated_delivery_time']].mean().dropna()\nst.title('Trend waktu perkiraan dan waktu nyata')\nst.line_chart(delivery_trend)",
+        "detail": "dashboard.dashboard",
+        "documentation": {}
+    }
+]
